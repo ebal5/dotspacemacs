@@ -235,7 +235,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font
    (cond
     ((my/font-exists-p "Cica") '("Cica"
-                                 :size 14
+                                 :size 15
                                  :weight normal
                                  :width normal))
     ((my/font-exists-p "Ricty Discord") '("Ricty Discord"
