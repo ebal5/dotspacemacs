@@ -41,9 +41,14 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      auto-completion
      better-defaults
+     (c-c++ :variables
+            c-c++-default-mode-for-headers 'c++-mode
+            c-c++ enable-clang-support t)
+     csv
      emacs-lisp
      git
      helm
+     html
      (japanese :variables
                migemo-dictionary
                (let ((c1 "/usr/local/share/migemo/utf-8/migemo-dict")
@@ -57,6 +62,9 @@ This function should only modify configuration layer settings."
      javascript
      markdown
      multiple-cursors
+     (latex :variables
+            latex-enable-auto-fill t
+            latex-enable-folding t)
      org
      (python :variables
              python-enable-yapf-format-on-save t
@@ -65,6 +73,7 @@ This function should only modify configuration layer settings."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
+     shell-scripts
      spell-checking
      sphinx
      syntax-checking
@@ -237,7 +246,8 @@ It should only modify the values of Spacemacs settings."
     ((my/font-exists-p "Cica") '("Cica"
                                  :size 15
                                  :weight normal
-                                 :width normal))
+                                 :width normal
+                                 :powerline-scale 0.6))
     ((my/font-exists-p "Ricty Discord") '("Ricty Discord"
                                           :size 13
                                           :weight normal
@@ -519,7 +529,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yatemplate yasnippet-snippets yapfify web-beautify unfill smeargle quickrun pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements pangu-spacing orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-brain mwim mmm-mode markdown-toc markdown-mode magit-svn magit-gitflow magit-popup livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc japanese-holidays importmagic epc ctable concurrent deferred htmlize helm-pydoc helm-org-rifle helm-gitignore helm-git-grep helm-company helm-c-yasnippet gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-tutor-ja evil-org evil-magit magit transient git-commit with-editor diff-hl ddskk cdb ccc cython-mode company-tern dash-functional tern company-statistics company-anaconda company browse-at-remote blacken avy-migemo migemo auto-yasnippet yasnippet auto-dictionary auto-complete-rst anaconda-mode pythonic ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))))
+    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode insert-shebang impatient-mode helm-rtags helm-css-scss haml-mode google-c-style flycheck-rtags flycheck-bashate fish-mode emmet-mode disaster csv-mode company-web web-completion-data company-shell company-rtags rtags company-c-headers company-auctex clang-format auctex-latexmk auctex zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme espresso-theme dracula-theme doom-themes django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yatemplate yasnippet-snippets yapfify web-beautify unfill smeargle quickrun pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements pangu-spacing orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-brain mwim mmm-mode markdown-toc markdown-mode magit-svn magit-gitflow magit-popup livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc japanese-holidays importmagic epc ctable concurrent deferred htmlize helm-pydoc helm-org-rifle helm-gitignore helm-git-grep helm-company helm-c-yasnippet gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-tutor-ja evil-org evil-magit magit transient git-commit with-editor diff-hl ddskk cdb ccc cython-mode company-tern dash-functional tern company-statistics company-anaconda company browse-at-remote blacken avy-migemo migemo auto-yasnippet yasnippet auto-dictionary auto-complete-rst anaconda-mode pythonic ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
