@@ -1,0 +1,12 @@
+\documentclass[a4paper]{ltjsreport}
+\usepackage[no-math]{fontspec}
+\usepackage[unicode,hidelinks,pdfusetitle]{hyperref}
+\usepackage[ipa]{luatexja-preset}
+\usepackage{amsmath}
+\usepackage{txfonts}
+\usepackage{graphicx}
+\usepackage{color,xcolor}
+\usepackage{pdfpages}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]

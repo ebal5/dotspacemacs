@@ -1,0 +1,21 @@
+\documentclass[14pt, cjk, xcolor=pdftex,dvipsnames,table]{beamer}
+\usepackage[cm-default]{fontspec}
+\usepackage{multicol}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]
+\setmainfont{IPAPMincho}
+\setsansfont{IPAPGothic}
+\setmonofont{IPAGothic}
+\XeTeXlinebreaklocale \"ja\"
+
+% \usetheme{Madrid}
+% \usetheme{metropolis}
+% \usecolortheme{whale}
+% \usecolortheme{dolphin}
+
+\AtBeginSection[]{
+\begin{frame}
+\tableofcontents[currentsection]
+\end{frame}
+}

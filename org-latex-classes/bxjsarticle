@@ -1,0 +1,10 @@
+\documentclass[a4paper,xelatex,ja=standard]{bxjsarticle}
+\usepackage{zxjatype}
+\usepackage{metalogo}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]
