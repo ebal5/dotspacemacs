@@ -37,7 +37,7 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
+     ;; `M-m f e R' (Emacs style) to install them.)
      ;; ----------------------------------------------------------------
      auto-completion
      better-defaults
@@ -65,7 +65,8 @@ This function should only modify configuration layer settings."
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
-     org
+     (org :variables
+          org-enable-github-support t)
      (python :variables
              python-enable-yapf-format-on-save t
              python-sort-imports-on-save t)
@@ -242,25 +243,44 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font
-   (cond
-    ((my/font-exists-p "Cica") '("Cica"
-                                 :size (if (file-exists-p "~/.spacemacs.d/hidpi") 20 15)
-                                 :weight normal
-                                 :width normal
-                                 :powerline-scale 0.6))
-    ((my/font-exists-p "Ricty Discord") '("Ricty Discord"
-                                          :size (if (file-exists-p "~/.spacemacs.d/hidpi") 20 15)
-                                          :weight normal
-                                          :width normal))
-    ((my/font-exists-p "Ricty Diminished") '("Ricty Diminished"
-                                             :size (if (file-exists-p "~/.spacemacs.d/hidpi") 20 15)
-                                             :weight normal
-                                             :width normal))
-    ((my/font-exists-p "Source Code Pro") '("Source Code Pro"
-                                            :size (if (file-exists-p "~/.spacemacs.d/hidpi") 20 15)
+   (if (file-exists-p "~/.spacemacs.d/hidpi")
+       (cond
+        ((my/font-exists-p "Cica") '("Cica"
+                                     :size 20
+                                     :weight normal
+                                     :width normal
+                                     :powerline-scale 0.6))
+        ((my/font-exists-p "Ricty Discord") '("Ricty Discord"
+                                              :size 20
+                                              :weight normal
+                                              :width normal))
+        ((my/font-exists-p "Ricty Diminished") '("Ricty Diminished"
+                                                 :size 20
+                                                 :weight normal
+                                                 :width normal))
+        ((my/font-exists-p "Source Code Pro") '("Source Code Pro"
+                                                :size 20
+                                                :weight normal
+                                                :width normal)))
+     (cond
+      ((my/font-exists-p "Cica") '("Cica"
+                                   :size 15
+                                   :weight normal
+                                   :width normal
+                                   :powerline-scale 0.6))
+      ((my/font-exists-p "Ricty Discord") '("Ricty Discord"
+                                            :size 15
                                             :weight normal
                                             :width normal))
-    )
+      ((my/font-exists-p "Ricty Diminished") '("Ricty Diminished"
+                                               :size 15
+                                               :weight normal
+                                               :width normal))
+      ((my/font-exists-p "Source Code Pro") '("Source Code Pro"
+                                              :size 15
+                                              :weight normal
+                                              :width normal))
+      ))
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -477,7 +497,10 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil)
+  (set-fontset-font
+   nil 'japanese-jisx0208
+   (font-spec :family "Cica")))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -513,6 +536,44 @@ before packages are loaded."
     (defvar skk-use-azik t)
     (defvar skk-azik-keyboard-type 'jp106)
     (setq skk-dcomp-activate t))
+  (with-eval-after-load "ox-latex"
+    (if (file-exists-p "~/.spacemacs.d/org-latex-classes/")
+        (let ((file-lst (f-files "~/.spacemacs.d/org-latex-classes")))
+          (while file-lst
+            (add-to-list 'org-latex-classes
+                         (append (list (car (reverse (split-string (car file-lst) "/")))
+                                       (f-read-text
+                                        (car file-lst))
+                                       )
+                                 (cond
+                                  ((string-match "book" (car file-lst))
+                                   (list '("\\part{%s}" . "\\part*{%s}")
+                                         '("\\chapter{%s}" . "\\chapter*{%s}")
+                                         '("\\section{%s}" . "\\section*{%s}")
+                                         '("\\subsection{%s}" . "\\subsection*{%s}")
+                                         '("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                                         '("\\paragraph{%s}" . "\\paragraph*{%s}")
+                                         '("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                                  ((string-match "report" (car file-lst))
+                                   (list '("\\chapter{%s}" . "\\chapter*{%s}")
+                                         '("\\section{%s}" . "\\section*{%s}")
+                                         '("\\subsection{%s}" . "\\subsection*{%s}")
+                                         '("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                                         '("\\paragraph{%s}" . "\\paragraph*{%s}")
+                                         '("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                                  (t
+                                   (list '("\\section{%s}" . "\\section*{%s}")
+                                         '("\\subsection{%s}" . "\\subsection*{%s}")
+                                         '("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                                         '("\\paragraph{%s}" . "\\paragraph*{%s}")
+                                         '("\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                                  ))
+                         (setq file-lst (cdr file-lst))
+                         )
+            ))
+      (setq org-latex-default-class "lsjsarticle")
+      )
+    )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -522,21 +583,21 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode insert-shebang impatient-mode helm-rtags helm-css-scss haml-mode google-c-style flycheck-rtags flycheck-bashate fish-mode emmet-mode disaster csv-mode company-web web-completion-data company-shell company-rtags rtags company-c-headers company-auctex clang-format auctex-latexmk auctex zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme espresso-theme dracula-theme doom-themes django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yatemplate yasnippet-snippets yapfify web-beautify unfill smeargle quickrun pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements pangu-spacing orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-brain mwim mmm-mode markdown-toc markdown-mode magit-svn magit-gitflow magit-popup livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc japanese-holidays importmagic epc ctable concurrent deferred htmlize helm-pydoc helm-org-rifle helm-gitignore helm-git-grep helm-company helm-c-yasnippet gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-tutor-ja evil-org evil-magit magit transient git-commit with-editor diff-hl ddskk cdb ccc cython-mode company-tern dash-functional tern company-statistics company-anaconda company browse-at-remote blacken avy-migemo migemo auto-yasnippet yasnippet auto-dictionary auto-complete-rst anaconda-mode pythonic ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     (quote
+      (web-mode tagedit slim-mode scss-mode sass-mode pug-mode insert-shebang impatient-mode helm-rtags helm-css-scss haml-mode google-c-style flycheck-rtags flycheck-bashate fish-mode emmet-mode disaster csv-mode company-web web-completion-data company-shell company-rtags rtags company-c-headers company-auctex clang-format auctex-latexmk auctex zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme espresso-theme dracula-theme doom-themes django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yatemplate yasnippet-snippets yapfify web-beautify unfill smeargle quickrun pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements pangu-spacing orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-brain mwim mmm-mode markdown-toc markdown-mode magit-svn magit-gitflow magit-popup livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc japanese-holidays importmagic epc ctable concurrent deferred htmlize helm-pydoc helm-org-rifle helm-gitignore helm-git-grep helm-company helm-c-yasnippet gnuplot gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip evil-tutor-ja evil-org evil-magit magit transient git-commit with-editor diff-hl ddskk cdb ccc cython-mode company-tern dash-functional tern company-statistics company-anaconda company browse-at-remote blacken avy-migemo migemo auto-yasnippet yasnippet auto-dictionary auto-complete-rst anaconda-mode pythonic ac-ispell auto-complete ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
