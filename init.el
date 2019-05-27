@@ -574,6 +574,10 @@ before packages are loaded."
       (setq org-latex-default-class "lsjsarticle")
       )
     )
+  (setq open-junk-file-format "~/Documents/junk/%Y/%m/%Y-%m-%d-%H%M%S.")
+  (with-eval-after-load 'open-junk-file
+    (message "debug: eval after open-junk-file loaded")
+    (setq open-junk-file-format "~/Documents/junk/%Y/%m/%Y-%m-%d-%H%M%S."))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
