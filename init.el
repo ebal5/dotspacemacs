@@ -578,6 +578,8 @@ before packages are loaded."
   (with-eval-after-load 'open-junk-file
     (message "debug: eval after open-junk-file loaded")
     (setq open-junk-file-format "~/Documents/junk/%Y/%m/%Y-%m-%d-%H%M%S."))
+
+  (setq yas-snippet-dirs (append yas-snippet-dirs "~/.spacemacs.d/snippets"))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -6,6 +6,7 @@
 \usepackage{txfonts}
 \usepackage{graphicx}
 \usepackage{color,xcolor}
+\usepackage[normalem]{ulem}
 \usepackage{pdfpages}
 [NO-DEFAULT-PACKAGES]
 [PACKAGES]

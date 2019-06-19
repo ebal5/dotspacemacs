@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: LaTeX-Class
+# key: <LC
+# --
+#+LaTeX_Class: $0
