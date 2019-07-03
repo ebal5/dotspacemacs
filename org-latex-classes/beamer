@@ -1,13 +1,15 @@
-\documentclass[14pt, cjk, xcolor=pdftex,dvipsnames,table]{beamer}
-\usepackage[cm-default]{fontspec}
+\documentclass[14pt, unicode]{beamer}
+\usepackage{luatexja}
 \usepackage{multicol}
+\usepackage[ipaex]{luatexja-preset}% IPAexフォントしたい
+\renewcommand{\kanjifamilydefault}{\gtdefault}% 既定をゴシック体に
 [NO-DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA]
-\setmainfont{IPAPMincho}
-\setsansfont{IPAPGothic}
-\setmonofont{IPAGothic}
-\XeTeXlinebreaklocale \"ja\"
+% \setmainfont{IPAPMincho}
+% \setsansfont{IPAPGothic}
+% \setmonofont{IPAGothic}
+% \XeTeXlinebreaklocale \"ja\"
 
 % \usetheme{Madrid}
 % \usetheme{metropolis}
