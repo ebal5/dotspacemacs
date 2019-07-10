@@ -535,6 +535,7 @@ before packages are loaded."
   (with-eval-after-load "ddskk-autoloads"
     (defvar skk-use-azik t)
     (defvar skk-azik-keyboard-type 'jp106)
+    (setq-default skk-kutouten-type 'en-jp)
     (setq skk-dcomp-activate t))
   (with-eval-after-load "ox-latex"
     (if (file-exists-p "~/.spacemacs.d/org-latex-classes/")
