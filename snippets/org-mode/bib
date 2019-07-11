@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: biblio
+# key: <bib
+# --
+$0
+#+BIBLIOGRAPHY: $1
