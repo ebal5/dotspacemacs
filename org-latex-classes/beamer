@@ -1,8 +1,14 @@
-\documentclass[14pt, unicode]{beamer}
+\documentclass[14pt, unicode, presentation]{beamer}
 \usepackage{luatexja}
 \usepackage{multicol}
 \usepackage[ipaex]{luatexja-preset}% IPAexフォントしたい
 \renewcommand{\kanjifamilydefault}{\gtdefault}% 既定をゴシック体に
+\usepackage{amsmath}
+\usepackage{ascmac}
+\usepackage{txfonts}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 [NO-DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA]
