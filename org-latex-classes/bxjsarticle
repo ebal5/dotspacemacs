@@ -5,6 +5,7 @@
 \usepackage{color}
 \usepackage{hyperref}
 \usepackage{pdfpages}
+\usepackage{url}
 [NO-DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA]

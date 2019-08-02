@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{color,xcolor}
 \usepackage{pdfpages}
+\usepackage{url}
 [NO-DEFAULT-PACKAGES]
 [PACKAGES]
 [EXTRA]
