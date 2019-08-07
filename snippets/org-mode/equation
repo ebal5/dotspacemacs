@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: equation
+# key: <EQ
+# --
+\begin{equation}
+$1
+\end{equation}
+$0
