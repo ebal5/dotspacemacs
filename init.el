@@ -71,6 +71,7 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-github-support t)
      (python :variables
+             python-pipenv-activate t
              python-enable-yapf-format-on-save t
              python-sort-imports-on-save t)
      restructuredtext
