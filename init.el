@@ -536,7 +536,7 @@ before packages are loaded."
     (defvar skk-azik-keyboard-type 'jp106)
     (setq-default skk-kutouten-type 'en)
     (setq skk-dcomp-activate t))
-  (setq org-latex-default-class "lsjsarticle")
+  (setq org-latex-default-class "ltjsarticle")
   (setq org-latex-compiler "lualatex")
   (setq org-latex-bib-compiler "biber")
   (with-eval-after-load "ox-latex"
