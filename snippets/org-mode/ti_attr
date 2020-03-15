@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: table/img attributes
+# key: <atr
+# --
+#+CAPTION: $1
+#+NAME: $2
+#+Attr_LaTeX: $3
+$0
