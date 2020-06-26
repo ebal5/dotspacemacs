@@ -577,6 +577,11 @@ before packages are loaded."
             ))
       )
     )
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages  'org-babel-load-languages
+                                  '((python . t)(latex . t)(perl . t)
+                                    (dot . t)(plantuml . t)(js . t)(elisp . t)))
+  )
   (setq open-junk-file-format "~/Documents/junk/%Y/%m/%Y-%m-%d-%H%M%S.")
   (with-eval-after-load 'open-junk-file
     (message "debug: eval after open-junk-file loaded")
