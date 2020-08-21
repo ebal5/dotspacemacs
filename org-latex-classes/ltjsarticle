@@ -1,7 +1,6 @@
 \documentclass[a4paper]{ltjsarticle}
 \usepackage[no-math]{fontspec}
 \usepackage[unicode,hidelinks,pdfusetitle]{hyperref}
-\usepackage[ipa]{luatexja-preset}
 \usepackage{amsmath}
 \usepackage{ascmac}
 \usepackage{bm}

@@ -100,6 +100,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(quickrun
      sparql
+     git-complete
      )
 
    ;; A list of packages that cannot be updated.
