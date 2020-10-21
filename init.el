@@ -537,7 +537,9 @@ before packages are loaded."
   ;; skk
   (with-eval-after-load "ddskk-autoloads"
     (defvar skk-use-azik t)
-    (defvar skk-azik-keyboard-type 'jp106)
+    (defvar skk-my-azik-unnecessary-rule-list '("dg"))
+    ;; (defvar skk-azik-keyboard-type 'jp106)
+    (defvar skk-azik-keyboard-type 'en)
     (setq-default skk-kutouten-type 'en)
     (setq skk-dcomp-activate t))
   (setq org-latex-default-class "ltjsarticle")
